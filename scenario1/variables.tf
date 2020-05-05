@@ -7,7 +7,7 @@ variable "nsx_username" {
 }
  
 variable "nsx_password" {
-    default = "VMwareD1!VMwareD1!"
+    default = "VMware1!VMware1!"
 }
 
 variable "overlay_tz" {
