@@ -66,6 +66,22 @@ resource "nsxt_policy_tier0_gateway_interface" "uplink2" {
     mtu                 = 1500
 }
 
+resource "nsxt_policy_static_route" "default_route" {
+  display_name = "default"
+  gateway_path = nsxt_policy_tier0_gateway.tier0_new.path
+  network      = "0.0.0.0/0"
+
+  next_hop {
+    admin_distance = "1"
+    ip_address     = "10.79.4.1"
+  }
+
+  tag {
+    scope = "demo"
+    tag   = "tftest"
+  }
+}
+
 resource "nsxt_policy_dhcp_server" "tier_dhcp" {
   display_name     = "DhcpServer"
   description      = "DHCP server for the Tier1"
