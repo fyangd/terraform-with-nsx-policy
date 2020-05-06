@@ -1,6 +1,8 @@
 # NSX-T Automation with Terraform
 
-- Examples here uses NSX-T Policy API. 
+Examples here uses NSX-T Policy API. 
+
+In all iterations, at the end of the Terraform script, there is a static route added to the Ubuntu host which is basically a VM connected to the same VLAN which the Tier0 uplink is connected to. It is purely optional.
 
 
 ## Iteration 1 
