@@ -172,6 +172,11 @@ resource "nsxt_policy_segment" "tier1_segment1" {
     description         = "Segment created by Terraform"
     transport_zone_path = data.nsxt_policy_transport_zone.overlay_tz.path
     connectivity_path   = nsxt_policy_tier1_gateway.tier1_new.path
+
+    tag {
+        scope = "demo"
+        tag   = "tftest"
+    }
  
     subnet {   
         cidr        = var.nsx_vars.tier1_segment1_ip
