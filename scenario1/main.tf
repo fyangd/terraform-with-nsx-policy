@@ -133,3 +133,22 @@ resource "nsxt_policy_segment" "tier1_new_segment1" {
         }
     }
 }
+
+resource "null_resource" "ubuntu" {
+
+  connection {
+    type = "ssh"
+	  agent = "false"
+	  host = "10.79.1.8"
+      
+	  user = "vmware"
+	  password = "VMwareD1!"
+  }
+
+  provisioner "remote-exec" {
+
+    inline = [
+       "echo VMware1! | sudo -S route add -net 10.10.10.0/24 gw 10.79.1.10",
+    ]
+  }
+}
