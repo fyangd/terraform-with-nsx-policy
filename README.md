@@ -18,7 +18,9 @@ This example also provisions the same topology as iteration 1 and 2, however it 
 
 ### Using The NSX-T Provider on Github
 
-NSX Provider for Terraform is continuously developed and improved by VMware and published [here](https://github.com/terraform-providers/terraform-provider-nsxt#developing-the-provider) For unpublished and beta features you would want to download it from the above URL and manually compile it. Instructions for that is also published in the same URL.
+NSX Provider for Terraform is continuously developed and maintained by VMware on [Github](https://github.com/terraform-providers/terraform-provider-nsxt#developing-the-provider). For the latest features you would want to download it from the above URL and manually compile it. For manual installation of the provider the instructions are [here](https://github.com/terraform-providers/terraform-provider-nsxt#manual-installation)
 
-The version that Terraform automatically pulls when you perform "terraform init" is the GA version of the code. 
+The version that Terraform automatically pulls when you perform "terraform init" is the GA version of the code and may not have the latest features. 
+
+
 
