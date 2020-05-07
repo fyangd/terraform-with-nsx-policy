@@ -185,7 +185,7 @@ resource "nsxt_policy_segment" "tier1_segment1" {
    
         dhcp_v4_config {
              lease_time  = 36000
-             dns_servers = [var.nsx_vars.tier1_segment1_dhcp_server_ip]
+             dns_servers = [var.nsx_vars.tier1_segment1_dns_server_ip]
         }
     }
 }
