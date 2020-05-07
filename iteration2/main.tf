@@ -203,16 +203,13 @@ resource "null_resource" "ubuntu" {
 
   provisioner "remote-exec" {
 
-    inline = [
-       "echo VMwareD1! | sudo -S route add -net 10.20.20.0/24 gw 10.79.1.10",
-    ]
+    inline = ["echo VMwareD1! | sudo -S route add -net 10.20.20.0/24 gw 10.79.1.10"]
   }
-  
+
   provisioner "remote-exec" {
 
     when = destroy
     inline = ["echo VMwareD1! | sudo -S route delete -net 10.20.20.0/24"]
   }
-	
-	
+
 }
