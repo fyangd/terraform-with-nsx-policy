@@ -1,7 +1,7 @@
 provider "nsxt" {
     host                     = var.nsx_vars.nsx_manager_ip
-    username                 = var.nsx_vars_username
-    password                 = var.nsx_vars_password
+    username                 = var.nsx_vars_nsx_manager_username
+    password                 = var.nsx_vars_nsx_manager_password
     allow_unverified_ssl     = true
     max_retries              = 10
     retry_min_delay          = 500
