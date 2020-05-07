@@ -1,6 +1,9 @@
 variable "nsx_vars" {
     type = map(string)
     default = {
+        nsx_manager_ip="10.79.1.10"
+        nsx_manager_user="admin"
+        nsx_manager_password="VMware1!"
         overlay_tz = "nsx-overlay-transportzone"
         vlan_tz = "nsx-vlan-transportzone"
         edge_cluster = "EdgeCluster2"
