@@ -17,4 +17,4 @@ This example provisions the same topology as iteration1 however it is fully vari
 
 ## Iteration-TKG
 
-This example has the Github based binaries for NSX Plugin for Terraform and configures the environment for a TKG installation. Credit goes to [@jayunit100](https://github.com/jayunit100)
+This example also provisions the same topology as iteration 1 and 2, however it has the Github based binaries for NSX Plugin for Terraform and configures the environment for VNware TKG installation. Credit goes to [@jayunit100](https://github.com/jayunit100)
