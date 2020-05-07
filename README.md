@@ -1,4 +1,4 @@
-# NSX Automation with Terraform
+# Automating NSX with Terraform
 
 Examples here uses NSX-T Policy API. 
 
