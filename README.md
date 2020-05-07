@@ -15,3 +15,10 @@ This example implements an active / standby Tier 0 configuration with Tier 1 and
 ## Iteration-TKG
 
 This example also provisions the same topology as iteration 1 and 2, however it has the Github based binaries for NSX Plugin for Terraform and configures the environment for VNware TKG installation. It usese VLAN ID = 0 for Tier 0 uplink vlan segment. Credit goes to [@jayunit100](https://github.com/jayunit100)
+
+### Using The NSX-T Provider on Github
+
+NSX Provider for Terraform is continuously developed and improved by VMware and published [here](https://github.com/terraform-providers/terraform-provider-nsxt#developing-the-provider) For unpublished and beta features you would want to download it from the above URL and manually compile it. Instructions for that is also published in the same URL.
+
+The version that Terraform automatically pulls when you perform "terraform init" is the GA version of the code. 
+
