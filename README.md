@@ -14,3 +14,7 @@ This example implements an active / standby Tier 0 configuration with Tier 1 and
 ## Iteration 2
 
 This example provisions the same topology as iteration1 however it is fully variable based. Variables default values can be configured to suit the respective environment' s values. 
+
+## Iteration-TKG
+
+This example has the Github based binaries for NSX Plugin for Terraform and configures the environment for a TKG installation (credit goes to @jayunit100)
