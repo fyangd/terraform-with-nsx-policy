@@ -16,6 +16,6 @@ variable "nsx_vars" {
         tier1_segment1_name="workload_segment1"
         tier1_segment1_ip="10.10.10.1/24"
         tier1_segment1_dhcp_range="10.10.10.51-10.10.10.99"
-        tier1_segment1_dhcp_server_ip="192.168.1.185"
+        tier1_segment1_dns_server_ip="192.168.1.185"
     }
 }
