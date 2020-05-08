@@ -1,4 +1,5 @@
 #!/bin/bash
+for i in `govc ls vm | grep mgmt` ; do govc vm.destroy $i ; done
 
 # This script pulls a TKG release down from a URL (change it as needed).
 # After pulling it then creates a small payload with ovas, kubectl, tkg-client
@@ -52,9 +53,14 @@ pushd $job
         ls -altrh ./payload
 popd
 
-echo "All contents are in $job/payload/"
+#### IMPORT OVAs 
+govc import.ova $job/payload/$haproxy_img
+govc vm.markastemplate `govc ls vm  | grep photon | grep haproxy`
+govc import.ova $job/payload/$kube_img
+govc vm.markastemplate `govc ls vm | grep photon | grep kube`
+source envvars.txt && ./tkg-client init --infrastructure=vsphere --plan=dev
 
-cat << EOF > envvars.txt
+#### Setup installation env vars
 export VSPHERE_SERVER='vxlan-vm-111-55.nimbus-tb.eng.vmware.com' # (required) The vCenter server IP or FQDN
 export VSPHERE_SERVER="192.168.111.151"
 export VSPHERE_USERNAME='administrator@vsphere.local'      # (required) The username used to access the remote vSphere endpoint
@@ -76,8 +82,8 @@ export CLUSTER_CIDR='100.96.0.0/11'       # (optional) The cluster CIDR of the m
 export SERVICE_DOMAIN='cluster.local'     # (optional) The k8s service domain of the management cluster, defaults to "cluster.local"
 
 # TKG
-export VSPHERE_HAPROXY_TEMPLATE="haproxy"
-export VSPHERE_TEMPLATE="k8s"
+export VSPHERE_HAPROXY_TEMPLATE="$(basename $haproxy_img +vmware.1.ova)"
+export VSPHERE_TEMPLATE="$(basename $kube_img +vmware.1.ova)"
 
 export VSPHERE_SSH_AUTHORIZED_KEY="$SSH_AUTHORIZED_KEY"
 export GOVC_URL="$VSPHERE_SERVER"
@@ -86,14 +92,8 @@ export GOVC_URL="$VSPHERE_SERVER"
 export GOVC_USERNAME="$VSPHERE_USERNAME"
 export GOVC_PASSWORD="$VSPHERE_PASSWORD"
 export GOVC_INSECURE=true
-EOF
 
-echo "1) first upload the haproxy.ova and k8s.ova into vsphere"
-echo "2) the env var script you can use is in envvars.txt, from there, run..."
-
-echo "govc import.ova $job/payload/$haproxy_img"
-echo "govc vm.markastemplate \`govc ls vm  | grep photon | grep haproxy\`"
-echo "govc import.ova $job/payload/$kube_img"
-echo "govc vm.markastemplate \`govc ls vm | grep photon | grep kube\`"
- 
-echo "source envvars.txt && tkg init --infrastructure=vsphere --plan=dev"
+echo "RUNNING TKG INIT NOW ...................."
+env | grep VSPHERE
+env | grep SERVICE
+./tkg-client init --infrastructure=vsphere --plan=dev
