@@ -4,35 +4,49 @@
 # After pulling it then creates a small payload with ovas, kubectl, tkg-client
 # That script can then be used to test tanzu on NSX using the conventions in this folder.
 
-version=v1.1.0-rc.1+vmware.1
-release=vmware-tanzu-kubernetes-grid-${version}
-client=tanzu_tkg-cli-${version}
-k8s=1.18.1
-haproxy=1.2.4
-node=1.18.1
-vmware=vmware.1
-build=35999326
+BUILD=362
 
-if [ ! -f ${release}.tar.gz ]; then
-	wget http://build-squid.eng.vmware.com/build/mts/release/sb-${build}/publish/lin64/tkg_release/${release}.tar.gz
+wget https://kscom.svc.eng.vmware.com/view/production/job/build-tkg/${BUILD}/artifact/tkgversion.txt
+
+buildwebid="`cat ./tkgversion.txt | grep tkg_release | cut -d'=' -f 2`"
+tanzu_tkg_cli_version="`cat ./tkgversion.txt | grep TANZU_TKG_CLI_VERSION | cut -d'=' -f 2`"
+v="`cat ./tkgversion.txt | grep TANZU_TKG_CLI_VMW_VERSION | cut -d'=' -f 2`"
+vmware=vmware.${v}
+kscom="`cat ./tkgversion.txt | grep KSCOM_RELEASE_VERSION | cut -d'=' -f 2`"
+haproxy="`cat ./tkgversion.txt | grep HAPROXY_OVA_VERSION | cut -d'=' -f 2`"
+release_tarball="vmware-tanzu-kubernetes-grid-v${tanzu_tkg_cli_version}+vmware.${v}"
+release_tarball_url="http://build-squid.eng.vmware.com/build/mts/release/sb-${buildwebid}/publish/lin64/tkg_release/${release_tarball}.tar.gz"
+version=v${tanzu_tkg_cli_version}+vmware.1
+release=vmware-tanzu-kubernetes-grid-${version}
+client=tanzu_tkg-cli-v${tanzu_tkg_cli_version}+vmware.1
+k8s=${kscom}
+haproxy=${haproxy}
+node=${kscom}
+
+echo "TKG Release for build $BUILD is $tkg_release, getting it now..."
+
+if [ ! -f ${release_tarball}.tar.gz ]; then
+        wget ${release_tarball_url}
 else
-        echo "found release ! copying..."
-        cp $release release.tar.gz
+        echo "found release !"
 fi
 
 
-job=`date "+%M_%Y_%d_%s"`
+job=JOB_`date "+%M_%Y_%d_%s"`
 echo "Creating job dir: $job"
 mkdir $job
 
 pushd $job
-        tar -xvf ../release.tar.gz
+        tar -xvf ../${release}.tar.gz
         mkdir payload
-        find ./ | grep ova >> ./payload/buildinfo.txt
-        cp $release/haproxy-v${haproxy}+vmware.1/images/photon-3-haproxy-v${haproxy}+${vmware}.ova ./payload/haproxy.ova
-        cp $release/node-v${node}+vmware.1/images/photon-3-kube-v${node}+${vmware}.ova ./payload/k8s.ova
+        haproxy_img="`basename $(find ./ -type f -exec basename {} \; | grep ova | grep photon | grep "\-haproxy\-") | grep ha`"
+        kube_img="`basename $(find ./ -type f -exec basename {} \; | grep ova | grep photon | grep "\-kube\-") | grep kube`"
+        echo "${haproxy_img} \n ${kube_img}"
+        cp $release/haproxy-v${haproxy}+vmware.1/images/${haproxy_img} ./payload/
+        cp $release/node-v${node}+vmware.1/images/${kube_img} ./payload/
+
         gunzip $release/$client/executables/tkg-linux-amd64-${version}.gz
-        cp $release/$client/executables/tkg-linux-amd64-${version} ./payload/tkg-client
+        cp $release/$client/executables/tkg-linux-amd64-${version} ./payload/
         gunzip $release/kubernetes-v${k8s}+${vmware}/executables/kubectl-linux-v${k8s}+${vmware}.gz
         cp $release/kubernetes-v${k8s}+${vmware}/executables/kubectl-linux-v${k8s}+${vmware} ./payload/kubectl
         ls -altrh ./payload
@@ -75,4 +89,5 @@ export GOVC_INSECURE=true
 EOF
 
 echo "1) first upload the haproxy.ova and k8s.ova into vsphere"
-echo "2) the env var script you can use is in envvars.txt, from there, run source envvars.txt && tkg init --infra=vsphere --plan=dev"
+echo "2) the env var script you can use is in envvars.txt, from there, run..."
+echo "source envvars.txt && tkg init --infra=vsphere --plan=dev"
