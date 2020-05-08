@@ -26,7 +26,7 @@ node=${kscom}
 echo "TKG Release for build $BUILD is $tkg_release, getting it now..."
 
 if [ ! -f ${release_tarball}.tar.gz ]; then
-        wget ${release_tarball_url}
+	wget ${release_tarball_url}
 else
         echo "found release !"
 fi
@@ -90,4 +90,10 @@ EOF
 
 echo "1) first upload the haproxy.ova and k8s.ova into vsphere"
 echo "2) the env var script you can use is in envvars.txt, from there, run..."
-echo "source envvars.txt && tkg init --infra=vsphere --plan=dev"
+
+echo "govc import.ova $job/payload/$haproxy_img"
+echo "govc vm.markastemplate \`govc ls vm  | grep photon | grep haproxy\`"
+echo "govc import.ova $job/payload/$kube_img"
+echo "govc vm.markastemplate \`govc ls vm | grep photon | grep kube\`"
+ 
+echo "source envvars.txt && tkg init --infrastructure=vsphere --plan=dev"
