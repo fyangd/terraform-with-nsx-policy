@@ -7,7 +7,7 @@ for i in `govc ls vm | grep mgmt` ; do govc vm.destroy $i ; done
 
 BUILD=362
 
-wget https://OBFUSCATED/view/production/job/build-tkg/${BUILD}/artifact/tkgversion.txt
+wget https://OBFUSCATEdddddD/view/production/job/build-tkg/${BUILD}/artifact/tkgversion.txt
 
 buildwebid="`cat ./tkgversion.txt | grep tkg_release | cut -d'=' -f 2`"
 tanzu_tkg_cli_version="`cat ./tkgversion.txt | grep TANZU_TKG_CLI_VERSION | cut -d'=' -f 2`"
@@ -16,7 +16,7 @@ vmware=vmware.${v}
 kscom="`cat ./tkgversion.txt | grep KSCOM_RELEASE_VERSION | cut -d'=' -f 2`"
 haproxy="`cat ./tkgversion.txt | grep HAPROXY_OVA_VERSION | cut -d'=' -f 2`"
 release_tarball="vmware-tanzu-kubernetes-grid-v${tanzu_tkg_cli_version}+vmware.${v}"
-release_tarball_url="http://OBFUSCATED/build/mts/release/sb-${buildwebid}/publish/lin64/tkg_release/${release_tarball}.tar.gz"
+release_tarball_url="http://OBFUSCATEddddddD/build/mts/release/sb-${buildwebid}/publish/lin64/tkg_release/${release_tarball}.tar.gz"
 version=v${tanzu_tkg_cli_version}+vmware.1
 release=vmware-tanzu-kubernetes-grid-${version}
 client=tanzu_tkg-cli-v${tanzu_tkg_cli_version}+vmware.1
