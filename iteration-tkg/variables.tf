@@ -19,6 +19,6 @@ variable "nsx_vars" {
         tier1_segment1_dhcp_range="12.10.10.51-12.10.10.99"
         tier1_segment1_dns_server_ip="192.168.111.155"
 
-        bootstrap = "sudo ip route delete 12.10.10.0/24 ; echo Ponies!23 | sudo -S route add -net 12.10.10.0/24 gw 192.168.115.123"
+        bootstrap = "sudo ip route delete 12.10.10.0/24 ; sudo route add -net 12.10.10.0/24 gw 192.168.115.123"
     }
 }
